@@ -49,18 +49,69 @@
 	当Git无法自动合并分支时，就必须首先解决冲突。解决冲突后，再提交，合并完成。
 	用git log --graph命令可以看到分支合并图
 --6.3 分支管理策略
+	通常，合并分支时，如果可能，Git会用Fast forward模式，但这种模式下，删除分支后，会丢掉分支信息。
+	如果要强制禁用Fast forward模式，Git就会在merge时生成一个新的commit，这样，从分支历史上就可以看出分支信息。
+	准备合并dev分支，请注意--no-ff参数，表示禁用Fast forward：
+	$ git merge --no-ff -m "merge with no-ff" dev
+	git log --graph（分之合并图） --pretty=oneline（一行显示） --abbrev-commit（简写的CommitId）
+	分支策略
+		首先，master分支应该是非常稳定的，也就是仅用来发布新版本，平时不能在上面干活；
+		那在哪干活呢？干活都在dev分支上，也就是说，dev分支是不稳定的，到某个时候，比如1.0版本发布时，再把dev分支合并到master上，在master分支发布1.0版本；
+		你和你的小伙伴们每个人都在dev分支上干活，每个人都有自己的分支，时不时地往dev分支上合并就可以了。
+	Git分支十分强大，在团队开发中应该充分应用。
+	合并分支时，加上--no-ff参数就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并，而fast forward合并就看不出来曾经做过合并。
 --6.4 Bug分支
+	修复bug时，我们会通过创建新的bug分支进行修复，然后合并，最后删除；
+	当手头工作没有完成时，先把工作现场git stash一下，然后去修复bug，修复后，再git stash pop，回到工作现场。
+	git stash list查看
+	git stash apply stash@{0}恢复到指定
+	一是用git stash apply恢复，但是恢复后，stash内容并不删除，你需要用git stash drop来删除；
+	另一种方式是用git stash pop，恢复的同时把stash内容也删了
 --6.5 Feature分支
+	开发一个新feature，最好新建一个分支；
+	如果要丢弃一个没有被合并过的分支，可以通过git branch -D <name>强行删除
 --6.6 多人协作
+	多人协作的工作模式通常是这样：
+	首先，可以试图用git push origin branch-name推送自己的修改；
+	如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；
+	如果合并有冲突，则解决冲突，并在本地提交；
+	没有冲突或者解决掉冲突后，再用git push origin branch-name推送就能成功！
+	如果git pull提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令git branch --set-upstream branch-name origin/branch-name
+	
+	小结：
+	查看远程库信息，使用git remote -v；
+	本地新建的分支如果不推送到远程，对其他人就是不可见的；
+	从本地推送分支，使用git push origin branch-name，如果推送失败，先用git pull抓取远程的新提交；
+	在地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+	建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
+	从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
 7 标签管理
 --7.1 创建标签
+	小结
+	命令git tag <name>用于新建一个标签，默认为HEAD，也可以指定一个commit id；
+	git tag -a <tagname> -m "blablabla..."可以指定标签信息；
+	git tag -s <tagname> -m "blablabla..."可以用PGP签名标签；
+	命令git tag可以查看所有标签
 --7.2 操作标签
+	小结
+	命令git push origin <tagname>可以推送一个本地标签；
+	命令git push origin --tags可以推送全部未推送过的本地标签；
+	命令git tag -d <tagname>可以删除一个本地标签；
+	命令git push origin :refs/tags/<tagname>可以删除一个远程标签。
 8 使用GitHub
 9 自定义Git
+	配置颜色 git config --global color.ui true
 --9.1 忽略特殊文件
+	在Git工作区的根目录下创建一个特殊的.gitignore文件，然后把要忽略的文件名填进去，Git就会自动忽略这些文件。
+	不需要从头写.gitignore文件，GitHub已经为我们准备了各种配置文件，只需要组合一下就可以使用了
 --9.2 配置别名
+	eg:git config --global alias.st status
+		git config --global alias.unstage 'reset HEAD'
+		git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+	配置Git的时候，加上--global是针对当前用户起作用的，如果不加，那只针对当前的仓库起作用。
+	配置文件放哪了？每个仓库的Git配置文件都放在.git/config文件中：
 --9.3 搭建Git服务器
+	搭建Git服务器非常简单，通常10分钟即可完成；
+	要方便管理公钥，用Gitosis；
+	要像SVN那样变态地控制权限，用Gitolite。
 10 期末总结
-
-嘻嘻
-哈哈
