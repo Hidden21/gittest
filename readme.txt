@@ -116,6 +116,5 @@
 	要像SVN那样变态地控制权限，用Gitolite。
 10 期末总结
 
-1343
-master首先创建分支
-dd
+master 创建分支
+dev 创建分支
