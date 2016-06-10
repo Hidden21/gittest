@@ -116,9 +116,3 @@
 	要方便管理公钥，用Gitosis；
 	要像SVN那样变态地控制权限，用Gitolite。
 10 期末总结
-已修复issue-101
-master 创建分支
-dev 创建分支
-
-gittest我添加了一行
-git我添加了一行
