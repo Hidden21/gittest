@@ -2,6 +2,8 @@
 --1.1 Git的诞生
 --1.2 集中式vs分布式
 2 安装Git
+	git config --global user.name "Your Name"
+	git config --global user.email "email@example.com"
 3 创建版本库
 	初始化一个Git仓库，使用git init命令。
 	添加文件到Git仓库，分两步：
@@ -103,6 +105,8 @@
 9 自定义Git
 	配置颜色 git config --global color.ui true
 --9.1 忽略特殊文件
+	如果你确实想添加该文件，可以用-f强制添加到Git：$ git add -f App.class
+	者你发现，可能是.gitignore写得有问题，需要找出来到底哪个规则写错了，可以用git check-ignore命令检查：$ git check-ignore -v App.class
 	在Git工作区的根目录下创建一个特殊的.gitignore文件，然后把要忽略的文件名填进去，Git就会自动忽略这些文件。
 	不需要从头写.gitignore文件，GitHub已经为我们准备了各种配置文件，只需要组合一下就可以使用了
 --9.2 配置别名
