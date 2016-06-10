@@ -72,6 +72,7 @@
 	如果要丢弃一个没有被合并过的分支，可以通过git branch -D <name>强行删除
 --6.6 多人协作
 	多人协作的工作模式通常是这样：
+	首次关联后，使用命令git push -u origin master第一次推送master分支的所有内容
 	首先，可以试图用git push origin branch-name推送自己的修改；
 	如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；
 	如果合并有冲突，则解决冲突，并在本地提交；
