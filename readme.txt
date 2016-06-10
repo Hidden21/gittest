@@ -12,7 +12,7 @@
 	如果git status告诉你有文件被修改过，用git diff可以查看修改内容。git diff HEAD -- readme.txt
 --4.1 版本回退
 	HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令git reset --hard commit_id。（commit_id可以为HEAD^ 或 HEAD~100）
-	穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。(显示少量信息加上 pretty=oneline参数)
+	穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。(显示少量信息加上 --pretty=oneline参数)
 	要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。
 --4.2 工作区和暂存区
 --4.3 管理修改
@@ -38,6 +38,13 @@
 --5.1 从远程库克隆
 6 分支管理
 --6.1 创建与合并分支
+	Git鼓励大量使用分支：
+		查看分支：git branch
+		创建分支：git branch <name>
+		切换分支：git checkout <name>
+		创建+切换分支：git checkout -b <name>
+		合并某分支到当前分支：git merge <name>
+		删除分支：git branch -d <name>
 --6.2 解决冲突
 --6.3 分支管理策略
 --6.4 Bug分支
